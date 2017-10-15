@@ -1,0 +1,20 @@
+{
+  "manifest_version": "1",
+  "api_version": "1",
+  "name": "Cacher",
+  "description": "Search in cacher snippets",
+  "developer_name": "Dmitry Antonenko",
+  "icon": "images/cacher.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "cacher",
+      "type": "keyword",
+      "name": "Cacher",
+      "description": "Find your cacher snippets",
+      "default_value": "cc"
+    }
+  ]
+}
