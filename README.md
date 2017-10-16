@@ -17,3 +17,6 @@ Find and copy to the clipboard your cacher snippets through the Ulauncher.
 2) Fill in corresponding configurations at: `~/.cache/ulauncher_cache/extensions/cacher/config.ini`
 
 3) Restart Ulauncher.
+
+### Requirements 
+Python 2.7.9+
