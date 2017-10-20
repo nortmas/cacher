@@ -6,7 +6,7 @@ Find and copy to the clipboard your cacher snippets through the Ulauncher.
 
 [Other extensions](https://ext.ulauncher.io/)
 
-![extension screenshot](https://i.imgur.com/3txr204.png)
+![extension screenshot](https://i.imgur.com/V93R4Ly.png)
 
 ## How to make it work.
 
