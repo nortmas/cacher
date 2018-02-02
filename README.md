@@ -14,7 +14,7 @@ Find and copy to the clipboard your cacher snippets through the Ulauncher.
 
 ![cacher credentials](https://github.com/CacherApp/alfred-cacher/blob/master/media/get-key-token.gif)
 
-2) Fill in corresponding configurations at: `~/.cache/ulauncher_cache/extensions/cacher/config.ini`
+2) Fill in corresponding configurations at: `~/.cache/ulauncher_cache/extensions/com.github.nortmas.cacher/config.ini`
 
 3) Restart Ulauncher.
 
