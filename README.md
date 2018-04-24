@@ -10,7 +10,9 @@ Find and copy to the clipboard your cacher snippets through the Ulauncher.
 
 ## How to make it work.
 
-1) Take your cacher credentials:
+1) `pip install requests`
+
+2) Take your cacher credentials:
 
 ![cacher credentials](https://github.com/CacherApp/alfred-cacher/blob/master/media/get-key-token.gif)
 
