@@ -10,6 +10,7 @@ from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
+from ulauncher.api.shared.action.OpenAction import OpenAction
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ class Cacher(Extension):
         token = parser.get('General', 'token')
 
         if not key or not token:
-            logger.error('Credentials are not found!')
+            logger.error('Credentials not found!')
 
         self.cache_max = 3600
         self.cache_start = time.time()
@@ -93,12 +94,25 @@ class Cacher(Extension):
 
         items = []
 
+        # Handle credentials error
+        if not self.headers['X-Api-Key'] or not self.headers['X-Api-Token']:
+            items.append(ExtensionResultItem(icon='images/cacher.png',
+                                 name='Credentials not found!',
+                                 description='Choose to edit ' + ext_path + '/config.ini',
+                                 on_enter=OpenAction(ext_path + '/config.ini')))
+            return items
+
         if self.data is None or (time.time() - self.cache_start) > self.cache_max:
             response = requests.get('https://api.cacher.io/integrations/show_all', headers=self.headers)
             self.data = response.json()
 
+            # Handle API error
             if 'status' in self.data and self.data['status'] == 'error':
                 logger.error(self.data['message'])
+                items.append(ExtensionResultItem(icon='images/cacher.png',
+                                     name='An error just occured!',
+                                     description='Error content: ' + self.data['message']))
+                return items
 
         matches = []
         self.matches_len = 0
