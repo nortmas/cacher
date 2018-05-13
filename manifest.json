@@ -1,5 +1,5 @@
 {
-  "manifest_version": "1",
+  "manifest_version": "2",
   "api_version": "1",
   "name": "Cacher",
   "description": "Search in cacher snippets",
