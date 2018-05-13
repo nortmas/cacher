@@ -15,6 +15,18 @@
       "name": "Cacher",
       "description": "Find your cacher snippets",
       "default_value": "cc"
+    },
+    {
+      "id": "api_key",
+      "type": "input",
+      "name": "API Key",
+      "description": "Located under Applications menu on your Cacher home page"
+    },
+    {
+      "id": "api_token",
+      "type": "input",
+      "name": "API Token",
+      "description": "Located under Applications menu on your Cacher home page"
     }
   ]
 }

@@ -1,4 +1,3 @@
-from ConfigParser import SafeConfigParser
 import logging
 import requests
 import time
@@ -6,18 +5,15 @@ import os
 
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
-from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
+from ulauncher.api.shared.event import KeywordQueryEvent, PreferencesEvent, PreferencesUpdateEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAction
-from ulauncher.api.shared.action.OpenAction import OpenAction
-
+from ulauncher.api.shared.action.OpenUrlAction import OpenUrlAction
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
-parser = SafeConfigParser()
 ext_path = os.path.dirname(os.path.abspath(__file__))
-parser.read(ext_path + '/config.ini')
 
 
 class KeywordQueryEventListener(EventListener):
@@ -25,24 +21,34 @@ class KeywordQueryEventListener(EventListener):
         items = extension.get_items(event.get_argument())
         return RenderResultListAction(items)
 
+class PreferencesEventListener(EventListener):
+    def on_event(self, event, extension):
+        extension.set_pref(event.preferences)
+
+class PreferencesUpdateEventListener(EventListener):
+    def on_event(self, event, extension):
+        extension.set_pref({ event.id: event.new_value })
 
 class Cacher(Extension):
     matches_len = 0
 
     def __init__(self):
+        self.headers = {}
+        super(Cacher, self).__init__()
+        self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
+        self.subscribe(PreferencesEvent, PreferencesEventListener())
+        self.subscribe(PreferencesUpdateEvent, PreferencesUpdateEventListener())
 
-        key = parser.get('General', 'key')
-        token = parser.get('General', 'token')
-
-        if not key or not token:
-            logger.error('Credentials not found!')
-
+    def set_pref(self, pref):
         self.cache_max = 3600
         self.cache_start = time.time()
         self.data = None
-        self.headers = {'X-Api-Key': key, 'X-Api-Token': token}
-        super(Cacher, self).__init__()
-        self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
+        self.preferences = pref
+        self.headers['X-Api-Key'] = self.preferences['api_key'] if 'api_key' in self.preferences else self.headers['X-Api-Key']
+        self.headers['X-Api-Token'] = self.preferences['api_token'] if 'api_token' in self.preferences else self.headers['X-Api-Token']
+
+        if not self.headers['X-Api-Key'] or not self.headers['X-Api-Token']:
+            logger.error('Credentials not found!')
 
     @staticmethod
     def get_labels(label, guid):
@@ -98,8 +104,8 @@ class Cacher(Extension):
         if not self.headers['X-Api-Key'] or not self.headers['X-Api-Token']:
             items.append(ExtensionResultItem(icon='images/cacher.png',
                                  name='Credentials not found!',
-                                 description='Choose to edit ' + ext_path + '/config.ini',
-                                 on_enter=OpenAction(ext_path + '/config.ini')))
+                                 description='Press Enter to go straight to cacher.io',
+                                 on_enter=OpenUrlAction('https://app.cacher.io')))
             return items
 
         if self.data is None or (time.time() - self.cache_start) > self.cache_max:
