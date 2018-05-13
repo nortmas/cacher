@@ -1,7 +1,6 @@
 import logging
 import requests
 import time
-import os
 
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
@@ -12,9 +11,6 @@ from ulauncher.api.shared.action.CopyToClipboardAction import CopyToClipboardAct
 from ulauncher.api.shared.action.OpenUrlAction import OpenUrlAction
 logging.basicConfig()
 logger = logging.getLogger(__name__)
-
-ext_path = os.path.dirname(os.path.abspath(__file__))
-
 
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
