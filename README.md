@@ -17,5 +17,5 @@ Find and copy to the clipboard your cacher snippets through the Ulauncher.
 2. Fill in corresponding configurations in Ulauncher extensions settings.
 
 ### Requirements
-Python 2.7.9+
-python-requests (`pip install requests`)
+- Python 2.7.9+
+- python-requests (`pip install requests`)
