@@ -10,15 +10,12 @@ Find and copy to the clipboard your cacher snippets through the Ulauncher.
 
 ## How to make it work.
 
-1) `pip install requests`
-
-2) Take your cacher credentials:
+1. Get your API key and token from cacher:
 
 ![cacher credentials](https://github.com/CacherApp/alfred-cacher/blob/master/media/get-key-token.gif)
 
-2) Fill in corresponding configurations at: `~/.cache/ulauncher_cache/extensions/com.github.nortmas.cacher/config.ini`
+2. Fill in corresponding configurations in Ulauncher extensions settings.
 
-3) Restart Ulauncher.
-
-### Requirements 
-Python 2.7.9+
+### Requirements
+- Python 2.7.9+
+- python-requests (`pip install requests`)
