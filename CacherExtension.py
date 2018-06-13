@@ -122,10 +122,16 @@ class Cacher(Extension):
         if query is None:
             query = ''
 
-        matches = self.find_rec(self.data['personalLibrary']['snippets'], query, matches)
+        snippets_data = self.data['personalLibrary']['snippets']
+        labels_data = self.data['personalLibrary']['labels']
+        for i in range(0, len(self.data['teams'])):
+            snippets_data.extend(self.data['teams'][i]['library']['snippets'])
+            labels_data.extend(self.data['teams'][i]['library']['labels'])
+
+        matches = self.find_rec(snippets_data, query, matches)
 
         for i in range(0, self.matches_len):
-            labels = self.get_labels(self.data['personalLibrary']['labels'], matches[i]['guid'])
+            labels = self.get_labels(labels_data, matches[i]['guid'])
             items.append(ExtensionResultItem(icon='images/cacher.png',
                                              name='%s' % matches[i]['title'],
                                              description='%s' % matches[i]['file'] + ' ' + ''.join(labels),
