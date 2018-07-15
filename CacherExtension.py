@@ -40,8 +40,8 @@ class Cacher(Extension):
         self.cache_start = time.time()
         self.data = None
         self.preferences = pref
-        self.headers['X-Api-Key'] = self.preferences['api_key'] if 'api_key' in self.preferences else self.headers['X-Api-Key']
-        self.headers['X-Api-Token'] = self.preferences['api_token'] if 'api_token' in self.preferences else self.headers['X-Api-Token']
+        self.headers['X-Api-Key'] = self.preferences['api_key']
+        self.headers['X-Api-Token'] = self.preferences['api_token']
 
         if not self.headers['X-Api-Key'] or not self.headers['X-Api-Token']:
             logger.error('Credentials not found!')
