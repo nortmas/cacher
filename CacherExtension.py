@@ -133,8 +133,9 @@ class Cacher(Extension):
         for i in range(0, self.matches_len):
             labels = self.get_labels(labels_data, matches[i]['guid'])
             items.append(ExtensionResultItem(icon='images/cacher.png',
-                                             name='%s' % matches[i]['title'],
-                                             description='%s' % matches[i]['file'] + ' ' + ''.join(labels),
-                                             on_enter=CopyToClipboardAction(matches[i]['data'])))
+                                             name='%s' % matches[i]['title'].decode("utf-8"),
+                                             description='%s' % matches[i]['file'].decode(
+                                                 "utf-8") + ' ' + ''.join(labels),
+                                             on_enter=CopyToClipboardAction(matches[i]['data'].decode('utf-8'))))
 
         return items
